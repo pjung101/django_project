@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<style>
+    .container{
+      display:inline-block;
+      width:400px;
+      vertical-align:top;
+    }
+    h5 {
+      font-size:50px;
+    }
+</style>
+
+<body>
+  <div class='header'>
+    <h5>Welcome! Sign in to make a wish!</h5>
+  </div>
+  <div class='container'>
+    <h1>Registration</h1>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      {% if 'first_name' in message.tags %}
+      <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{ message }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <form action='register/' method='post'>
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="exampleInputFirstName">First Name</label>
+        <input type="text"class="form-control" name='first_name' value="{{request.session.first_name}}">
+      </div>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      {% if 'last_name' in message.tags %}
+      <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{ message }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+      <div class="form-group">
+        <label for="exampleInputLastName">Last Name</label>
+        <input type="text"class="form-control" name='last_name' value="{{request.session.last_name}}">
+      </div>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      {% if 'email' in message.tags %}
+      <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{ message }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="text" class="form-control" name='email' value="{{request.session.email}}">
+      </div>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      {% if 'password' in message.tags %}
+      <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{ message }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" name='password'>
+      </div>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      {% if 'confirm' in message.tags %}
+      <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{ message }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+      <div class="form-group">
+        <label for="exampleInputPassword1">Confirm Password</label>
+        <input type="password" class="form-control" name='confirm'>
+      </div>
+      <button type="submit" class="btn btn-primary">Registration</button>
+    </form>
+  </div>
+  <div class='container'>
+    <h1>Login</h1>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      {% if 'lemail' in message.tags %}
+      <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{ message }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <form action='login/' method='post'>
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="text" class="form-control" name='lemail' value="{{request.session.lemail}}">
+      </div>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      {% if 'lpassword' in message.tags %}
+      <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{ message }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    {% endif %}
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" name='lpassword'>
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+      *{
+        margin:0px;
+        padding:0px;
+      }
+      .header h1, .header a,.header form, .header button{
+        display:inline-block;
+        }
+      .header h1{
+        margin-right:400px;
+      }
+      .header button{
+        padding:10px;
+      }
+      button[name='blackb']{
+        background-color:lavender;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='container header'>
+      <h1>Hello {{request.session.first_name}}!</h1>
+    <a href='logout/'>Logout</a>
+    <form action='stats/' method='post'>
+      {% csrf_token %}
+      <button type='submit' name = 'blackb'>View Stats</button>
+    </form>
+    <form action='new/' method='post'>
+      {% csrf_token %}
+      <button type='submit'>Make a wish!</button>
+    </form>
+    </div>
+    <div class='container'>
+      <h2>Your wish list:</h2>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Date added</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in selected_w %}
+    {% if i.granted == 0 %}
+    {% if i.user.id == request.session.id %}
+    <tr>
+      <td>{{i.item}}</td>
+      <td>{{i.created_at}}</td>
+      <td>
+        <a href="delete/{{i.id}}/">Remove</a> | 
+        <a href="edit/{{i.id}}">Edit</a> | 
+        <a href="granted/{{i.id}}/">Granted!</a>
+      </td>
+    </tr>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+    </div>
+    <div class = 'container'>
+      <h2>Granted wishes:</h2>
+      <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Wisher</th>
+      <th scope="col">Date Added</th>
+      <th scope="col">Date Granted</th>
+      <th scope="col">Likes</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in selected_w %}
+    {% if i.granted == 1 %}
+    <tr>
+      <td>{{i.item}}</td>
+      <td>{{i.user.first_name}}</td>
+      <td>{{i.created_at}}</td>
+      <td>{{i.updated_at}}</td>
+      <td>{{i.likes.all.count}}</td>
+      {% if i.user.id != request.session.id %}
+      {% if i.id not in selected_u %}
+      <td><a href="like/{{i.id}}">Like</a></td>
+      {% endif %}
+      {% endif %}
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+    </div>
+  </body>
+</html>
